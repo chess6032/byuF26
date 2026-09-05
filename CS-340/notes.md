@@ -104,3 +104,18 @@ Then you can run these scripts with <code>&#36; npm run <i>script</i></code>:
 $ npm run build
 $ npm run start
 ```
+
+## tsconfig.json
+
+`tsconfig.json` configures `tsc`, the TS &rarr; JS transpiler.
+
+By default, `tsc` compiles all `.ts` files in the project. Good to know.
+
+Here's some important compiler options (`compilerOptions` in `tsconfig.json`):
+
+- `target`: specifies which version of JS code to generate.
+- `module`: specifies which module system thould be used in the generate JS code.
+- `ourDir`: specifies directory where generated JS files are placed.
+- `sourceMap`: specifies whether source map files will be generated (for debugging).
+  - Source map files map line numbers in the JS code back to the corresponding line numbers in the original TS code. This is necessary for debuggers to properly implement breakpoints.
+- `files` can be used to explicitly list files & directories that should be compiled.
