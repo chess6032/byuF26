@@ -1,6 +1,26 @@
-# TS Notes
+# Notes
 
-## Creating a project (NPM)
+## TS project file structure
+
+```
+root/
+  package.json
+  tsconfig.json
+  package-lock.json
+  node_modules/
+  dist/
+  src/
+```
+
+* `package.json` is the config file for the NPM project.
+* `tsconfig.json` is the config file for the TS transpiler.
+* `package-lock.json` records all NPM dependency libraries (and their exact versions, sub-dependencies, etc.).
+* `node_modules/` holds all NPM dependency libaries.
+  * It's recommended you **do not commit `node_modules/`**, bc it's rly big. (Add it to `.gitignore`.)
+* `dist/` holds your transpiled JS scripts.
+* `src/` holds your TS source code.
+
+## Creating a TS/JS project (NPM)
 
 | Step                              | Shell command |  
 | --------------------------------- | ------------- |  
@@ -22,6 +42,9 @@ Make sure the following properties in the `compilerOptions` object have the foll
 "module": "commonJS",
 "sourceMap": true
 ```
+
+> [!NOTE]
+> VSCode's TS/JS debugger relies on [source maps](https://firefox-source-docs.mozilla.org/devtools-user/debugger/how_to/use_a_source_map/index.html), which is why we add the `"sourceMap": true` option.
 
 Also specify an `outDir` for the compiled JS scripts to live. When I did this, I also had to add a `rootDir` that points to the root directory of my TS source code:
 
