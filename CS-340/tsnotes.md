@@ -82,13 +82,16 @@ people.getUserInput();
   - Members are **public by default**.
 - TS supports object literals, like JS. 
   - These look like <code>{<i>name</i>: <i>val</i>, &hellip;}</code>
-- TS supports abstract classes (<code>abstract class <i>Class</i></code>).
 - `extends` is the keyword for inheritance.
   - <code>class <i>Sub</i> extends <i>Super</i></code>
+- TS supports abstract classes (<code>abstract class <i>Class</i></code>).
+- TS supports interfaces (<code>interface <i>Interface</i></code>).
+  - Interfaces can inherit from shih, too.
+- Classes can only inherit from one superclass, but they can extend multiple interfaces.
 - Instantiate a class w/ `new`.
   - <code><i>obj</i> = new <i>Class</i>(&hellip;);</code>
 - "Property" instead of "member" to refer to a class's variables, methods, etc.
-- Classes can only inherit from one superclass, but they can extend multiple interfaces.
+  - Sometimes "field", it appears? (Especially when referring to a non-method member...?)
 
 ### Parameter properties (constructors)
 
@@ -117,7 +120,15 @@ You can make a setter by replacing `get` with `set` and giving it params. This i
 
 To handle assignments of different types, you can make its param type a union (and use `typeof` in the function body). However, you can NOT overload the `set` accessor.
 
-## Structural typing (class/function comparison)
+## Unions & Intersections (typing)
+
+- Intersection: `T1 & T2`.
+  - An obj typed as `T1 & T2` contains ALL members of `T1` AND `T2`.
+- Union: `T1 | T2`.
+  - An obj typed as `T1 | T2` may be a `T1`, a `T2`, or both (union).
+    - i.e., it might contain all of `T1`'s members, all of `T2`'s members, or all of both.
+
+## Structural typing (class/function inter-compatibility)
 
 TS uses a structural typing system. This means that TS compares objects by their structure, not their name. (Apparently this is true for all types? Idk.) **Two classes are compatible if they share the same "shape"**.
 
@@ -139,3 +150,106 @@ Here's some important nuances:
 * Excess properties are (usually(?)) fine. If a class `C1` the same members/types as a class `C2` and *then some of its own*, `C1` is still compatible with `C2`.
 * Private/protected properties are always tied to the specific class body that declared them. Two classes that write the same name & type of a private member are not compatible.
   * Note that this does not apply to object literals, since object literals can't have private properties in the first place.
+
+## Type aliases
+
+Type aliases look like this:
+
+```ts
+type TypeName = /* ... */
+```
+
+### Type alias Examples
+
+Here's some examples:
+
+```ts
+type Cat = {
+    name: string,
+    purrs: boolean
+};
+
+type Dog = {
+    name: string,
+    barks: boolean,
+    wags: boolean
+};
+
+type CatOrDogOrBoth = Cat | Dog;
+
+type CatAndDog = Cat & Dog;
+```
+
+## Interfaces vs. type aliases
+
+With unions, you can (kind of) "extend" type aliases the way you can w/ interfaces.
+
+```ts
+type Base = {
+  prop1: string
+}
+
+type Derived = Base & {
+  prop2: number
+}
+```
+
+But interfaces have better type checking with extensions. In general, **if `Derived` must be usable wherever `Base` is, use interfaces**.
+
+```ts
+interface A {
+  good(x: number): string
+  bad(x: number): string
+}
+
+interface B extends A {
+  good(x: string | number): string
+  bad(x: string): string  // Error TS2430: Interface 'B'
+}                         // incorrectly extends
+                          // interface 'A'. Type 'number' is 
+                          // not assignable to type 'string'.
+```
+
+```ts
+// with type aliases
+type A = {
+  good(x: number): string
+  bad(x: number): string
+}
+
+type B = A & {
+  good(x: string | number): string
+  bad(x: string): string
+}               // No Error! But bad() can’t be 
+                // called because no parameter is 
+                // both string and number.
+                // B must be useable wherever A 
+                // is expected.
+```
+
+## Interface merging
+
+You can do this&mdash;
+
+```ts
+// Face has one field, a string called "prop1".
+interface Face {
+  prop1: string
+}
+
+// Face has two fields, "prop1" and "prop2".
+interface Face {
+  prop2: number
+}
+```
+
+&mdash;and it's the same as this:
+
+```ts
+interface Face {
+  prop1: string,
+  prop2: number
+}
+```
+
+This is called "interface merging". I'm not really sure where you'd want to use it though.
