@@ -253,3 +253,29 @@ interface Face {
 ```
 
 This is called "interface merging". I'm not really sure where you'd want to use it though.
+
+## `let` vs `var`
+
+* `let` is scoped to its **code block**. 
+* `var` is scoped to its **function**.
+
+```ts
+if (true) {
+  let x = "let";
+  var y = "var";
+}
+
+console.log(y); // OK
+console.log(x); // Uncaught ReferenceError: x is not defined
+```
+
+A `let`-defined variable can overshadow a `var`-defined one.
+
+```ts
+var x = "var";
+if (true) {
+  let x = "let";
+  console.log(x); // let
+}
+console.log(x); // var
+```
