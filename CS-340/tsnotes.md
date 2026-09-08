@@ -404,6 +404,87 @@ const tahoe = {
 };
 ```
 
-## Objects
+## Destructuring
 
+Destructuring is the act of extracting individual items from an object or array.
 
+### Destructuring objects
+
+Writing <code>let { <i>prop1</i>, <i>prop2</i>, &hellip; } = <i>obj</i>;</code> will assign `prop1` to `obj.prop1`, `prop2` to `obj.prop2`, etc.
+
+**Object destructuring *copies* the objects data**. If you modify the destructed variables you created, it won't affect the object's data.
+
+```ts
+const sandwich = {
+  bread: "white",
+  meat: "turkey",
+  cheese: "provolone",
+  toppings: ["lettuce", "tomato", "mayo"]
+};
+
+let { bread, meat } = sandwich;
+
+console.log(`${bread}, ${meat}`); // white, turkey 
+
+bread = "wheat";
+meat = "ham";
+
+console.log(`${bread}, ${meat}`); // wheat, ham
+console.log(`${sandwich.bread}, ${sandwich.meat}`); // white, turkey
+```
+
+#### Destructuring object-typed function parameters
+
+You can use object destructuring syntax inside of function parameters, too. Consider a function that takes an object and accesses its members:
+
+```ts
+const praise = person => {
+  console.log(`${person.firstname} has a big, juicy gyatt.`)
+}
+
+const coolPerson = {
+  firstname: "Caleb",
+  lastname: "Hessing"
+};
+
+praise(coolPerson); // Caleb has a big, juicy gyatt.
+```
+
+Instead of digging into the object with `.`, you can destructure the values you need out of it:
+
+```ts
+const praise ({ firstname }) => {
+  console.log(`${firstname} has a big, juicy gyatt`);
+}
+
+const coolPerson = {
+  firstname: "Caleb",
+  lastname: "Hessing"
+};
+
+praise(coolPerson); // Caleb has a big, juicy gyatt.
+```
+
+This can be especially nice if you want to access a property from an object nested within the one you expect to be passed into the function. E.g., `const praiseSpouse = ({ spouse: { firstname }}) => { /* ... */ };`.
+
+### Destructuring Arrays
+
+Writing <code>[<i>var1</i>, <i>var2</i>, &hellip;] = <i>array</i>;</code> will assign `var1` to `array[0]`, `var2` to `array[1]`, etc.
+
+Like object destructuring, this copy is by *value*, NOT reference. Modifying the variables you created in the destructuring will not modify the original array you copied from.
+
+You don't have to copy all elements over (i.e., for an array w/ $n$ elements, you do NOT can destructure $k < n$ elements from it). Additionally, you can skip over elements by leaving empty space between commas.
+
+```ts
+const animals = ["horse", "mouse", "cat", "dog"];
+
+const [firstAnimal, secondAnimal] = animals;
+console.log(firstAnimal); // horse
+console.log(secondAnimal); // mouse
+
+const [, , thirdAnimal] = animals;
+console.log(thirdAnimal); // cat
+```
+
+> [!TIP]
+> For more advanced array destructuring, use the spread operator (see below).
