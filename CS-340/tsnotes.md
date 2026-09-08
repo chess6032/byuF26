@@ -55,6 +55,29 @@ interface Person {}
 export { getInputValue as getUserInput, Player, Person };
 ```
 
+#### `export default`
+
+You can mark a single export as the module's "main" export with `export default`. Then, when you import it from another module, you don't need to enclose its name in curly braces.
+
+```ts
+// circles.ts
+export const PI = 3.14159;
+
+export default circleArea(radius: number): number {
+  return PI * radius * radius;
+}
+```
+
+```ts
+import circleArea, { PI } from "./circles";
+      // ^ circleArea is circles.ts's default export, so it doesn't need braces.
+                  // ^ Everything else imported from circles.ts must be enclosed in braces.
+
+console.log(circleArea(2), PI);
+```
+
+Any module can only have ONE (1) `export default`.
+
 ### Import syntax
 
 To import `item` from `module.ts`, you would do this:
@@ -380,3 +403,7 @@ const tahoe = {
   }
 };
 ```
+
+## Objects
+
+
