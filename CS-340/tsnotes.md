@@ -279,3 +279,104 @@ if (true) {
 }
 console.log(x); // var
 ```
+
+## Functions
+
+- JS/TS supports default parameters (same as C++ or Python).
+  - (Added in ES6.)
+
+### Function declarations vs. function expressions
+
+Here is a function declaration:
+
+```ts
+function foo() {
+  // do stuff...
+  return 67;
+}
+```
+
+Here is a function expression:
+
+```ts
+const foo = function() {
+  // do stuff...
+  return 67;
+}
+```
+
+Both of those functions would do the same thing. I.e., if you have two functions with the same params, return, and body, they'll do the same thing even if one is created via a declaration and the other is created via an expression.
+
+However, they differ in that **function *declarations* are *hoisted*, while function *expressions* are not.** "Hoisted" means that the function is moved up to the top of the file. This allows you to invoke a function before you declared it.
+
+```ts
+hey(); // hey
+
+function hey() {
+  console.log("hey");
+}
+```
+
+```ts
+hey(); // ReferenceError: hey is not defined
+
+hey = function() {
+  console.log("hey");
+};
+```
+
+### Arrow functions
+
+This function&mdash;
+
+```ts
+function foo(bar) {
+  return bar + 1;
+}
+```
+
+&mdash;looks like this as an arrow function:
+
+```ts
+const foo = bar => bar + 1;
+```
+
+You can add `()` if your want more than one param&mdash;or if you want none:
+
+```ts
+const foo = () => console.log("hey");
+```
+
+And you can add `{}` if you want more than one statement in the body. However, then you have to include a `return` statement if you want to return anything.
+
+```ts
+const foo = (bar1, bar2) => {
+  console.log("wow!");
+  return `${bar1}: ${bar2}`;
+};
+```
+
+#### Returning an object
+
+If you want a one-line arrow function to return an object, encase the object in parenthesis. Otherwise the interpreter will think you're trying to define the function's body.
+
+```ts
+const foo = () => ( {skibidi: 'rizz', gyatt: 'ohio'} );
+```
+
+#### Scope
+
+**Arrow functions preserve the scope (`this`) in which they were created.** This is especially helpful when passing functions into callbacks that might otherwise change what `this` references.
+
+For example:
+
+```ts
+const tahoe = {
+  mountains: ["Freel", "Rose", "Tallac", "Rubicon", "Silver"],
+  print: (delay = 1000) => {
+    setTimeout(() => { // <--- this MUST be an arrow function, or else this.mountains will be undefined.
+      console.log(this.mountains.join(", "));
+    }, delay);
+  }
+};
+```
