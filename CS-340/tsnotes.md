@@ -174,6 +174,76 @@ Here's some important nuances:
 * Private/protected properties are always tied to the specific class body that declared them. Two classes that write the same name & type of a private member are not compatible.
   * Note that this does not apply to object literals, since object literals can't have private properties in the first place.
 
+
+## `+` operator is SUS
+
+The `+` has some weird behavior.
+
+### `+` for objects
+
+**When you add two objects, JS coerces them to primitives** and evaluates that sum. This coercion (conversion?) takes two steps:
+
+1. Call the object's `valueOf()` function. If `valueOf()` returns a primitive, then use that.
+2. If `valueOf()` does not return a primitive, call the object's `toString()` function, and use that.
+
+> [!NOTE]
+> Strings are primitives in JS/TS.
+
+This is why adding arrays is super sus:
+
+<pre><code>$ node
+> <i>arr1 = ['a', 'b', 'c'];</i>
+> <i>arr2 = ['d', 'e', 'f'];</i>
+> <i>arr1 + arr2;</i>
+'a,b,cd,e,f'
+</code></pre>
+
+
+### `+` for primitives
+
+When adding two primitives, **if one of the primitives is a string, the result will ALWAYS be a string.** Otherwise, it **coerces the primitives to numbers**.
+
+- Adding a number to a string prepends/appends the number to the string. e.g., `1 + 'rizz'` == `'1rizz'`.
+- `null` when coerced to a number becomes `0`.
+- `undefined` when coerced to a number becomes `NaN`.
+- `NaN` is a number.
+
+### The other arithmetic operators are NOT sus (`-`/`*`/`/`)
+
+`+` is the ONLY arithmetic operator that works this way. All the other arithmetic operators (`-`, `*`, `/`, `**`, etc.) **try to coerce operands to numbers (if it isn't already). If it is unable to, the result is always `NaN`.**
+
+This is why `'25' + 1` is `'251'` but `'25' - 1` is `24`. In the case of the latter, `'25'` is converted to `25` (a number), and then `1` is subtracted from it.
+
+For objects, JS uses `valueOf()` and checks if its return type is a number. If it is, it uses that. Otherwise, the result of the expression will be `NaN`.
+
+### Examples
+
+<pre><code>$ node
+> <i>'hey' + 1</i>
+'hey1'
+> <i>'hey' - 1</i>
+NaN
+> <i>'3' + 2</i>
+'32'
+> <i>'3' * 2</i>
+6
+> <i>1 + NaN</i>
+NaN
+> <i>1 + undefined</i>
+NaN
+> <i>1 + null</i>
+1
+> <i>let obj = { valueOf: () => 69 }</i>
+> <i>obj / 3</i>
+23
+> <i>obj == 69;</i>
+true
+</code></pre>
+
+> [!TIP]
+> If you're ever curious, you can use JS's built-in `String()` and `Number()` functions to see how an object or primitive is converted/coerced to a string or number, respectively.
+
+
 ## Type aliases
 
 Type aliases look like this:
@@ -489,75 +559,105 @@ console.log(thirdAnimal); // cat
 > [!TIP]
 > For more advanced array destructuring, use the spread operator (see below).
 
-## `+` operator is SUS
-
-The `+` has some weird behavior.
-
-### `+` for objects
-
-**When you add two objects, JS coerces them to primitives** and evaluates that sum. This coercion (conversion?) takes two steps:
-
-1. Call the object's `valueOf()` function. If `valueOf()` returns a primitive, then use that.
-2. If `valueOf()` does not return a primitive, call the object's `toString()` function, and use that.
-
-> [!NOTE]
-> Strings are primitives in JS/TS.
-
-This is why adding arrays is super sus:
-
-<pre><code>$ node
-> <i>arr1 = ['a', 'b', 'c'];</i>
-> <i>arr2 = ['d', 'e', 'f'];</i>
-> <i>arr1 + arr2;</i>
-'a,b,cd,e,f'
-</code></pre>
-
-
-### `+` for primitives
-
-When adding two primitives, **if one of the primitives is a string, the result will ALWAYS be a string.** Otherwise, it **coerces the primitives to numbers**.
-
-- Adding a number to a string prepends/appends the number to the string. e.g., `1 + 'rizz'` == `'1rizz'`.
-- `null` when coerced to a number becomes `0`.
-- `undefined` when coerced to a number becomes `NaN`.
-- `NaN` is a number.
-
-### The other arithmetic operators are NOT sus (`-`/`*`/`/`)
-
-`+` is the ONLY arithmetic operator that works this way. All the other arithmetic operators (`-`, `*`, `/`, `**`, etc.) **try to coerce operands to numbers (if it isn't already). If it is unable to, the result is always `NaN`.**
-
-This is why `'25' + 1` is `'251'` but `'25' - 1` is `24`. In the case of the latter, `'25'` is converted to `25` (a number), and then `1` is subtracted from it.
-
-For objects, JS uses `valueOf()` and checks if its return type is a number. If it is, it uses that. Otherwise, the result of the expression will be `NaN`.
-
-### Examples
-
-<pre><code>$ node
-> <i>'hey' + 1</i>
-'hey1'
-> <i>'hey' - 1</i>
-NaN
-> <i>'3' + 2</i>
-'32'
-> <i>'3' * 2</i>
-6
-> <i>1 + NaN</i>
-NaN
-> <i>1 + undefined</i>
-NaN
-> <i>1 + null</i>
-1
-> <i>let obj = { valueOf: () => 69 }</i>
-> <i>obj / 3</i>
-23
-> <i>obj == 69;</i>
-true
-</code></pre>
-
-> [!TIP]
-> If you're ever curious, you can use JS's built-in `String()` and `Number()` functions to see how an object or primitive is converted/coerced to a string or number, respectively.
-
 ## Spread operator (`...`)
 
-**The spread operator unpacks an array**: <code>...<i>arr</i></code>.
+**The spread operator unpacks an array** (or object): <code>...<i>arrOrObj</i></code>.
 
+### `...` for copying an array
+
+You can use `[...arr]` to quickly copy an array `arr`. This is useful because simple assignment is by reference. 
+
+```ts
+let arr = [1, 2, 3];
+let [...arrCopy] = arr;
+
+arrCopy[0] = 'skibidi';
+console.log(arrCopy); // ['skibidi', 2, 3]
+console.log(arr); // [1, 2, 3]
+```
+
+It's also useful when you want to use an array function that normally would mutate the array.
+
+```ts
+const runners = ['Sonic', 'Mario', 'Koopa the Quick'];
+const [last] = [...peaks].reverse();
+                      // ^ Array.reverse() is a mutator function, 
+                      // but because [...peaks] creates a copy,
+                      // the original peaks array is left unmodified.
+
+console.log(last); // Koopa the Quick
+console.log(runners.join(', ')); // Sonic, Mario, Koopa the Quick
+```
+
+### `...` for array concatenation
+
+```ts
+let arr1 = [1, 2, 3];
+let arr2 = ['a', 'b', 'c'];
+
+let joined = [...arr1, ...arr2];
+console.log(joined); // [1, 2, 3, 'a', 'b', 'c']
+```
+
+^ Doing this copies by value, not by reference. So, in that example, modifications to `arr1` or `arr2` would not affect `joined`.
+
+### `...` with array destructuring
+
+You can use `...` to copy remaining values in an array. <code>[<i>var1</i>, <i>var2</i>, &hellip;, <i>varn</i>, ...<i>varRest</i>] = <i>arr</i></code> will copy the $n+1$th element and on from `arr` into `varRest`.
+
+```ts
+const runners = ['Sonic', 'Mario', 'Koopa the Quick'];
+const [first, ...others] = runners;
+
+console.log(first); // Sonic
+console.log(others.join(', ')); // Mario, Koopa the Quick.
+```
+
+### `...` for parameters ("rest" parameters)
+
+For a function parameter <code>...<i>param</i></code>, `param` will appear to the function to be an array, while the caller will just put in a list of inputs. I.e., it allows a function to accept a variable number of positional arguments; JS will pack all extra positional arguments into a single array.
+
+This is only allowed for a function's LAST parameter.
+
+(It's kind of analogous to Python's `*args`)
+
+```ts
+function announce(msg, ...people) {
+  people.forEach((person) => {
+    console.log(`${msg}: ${person}`);
+  });
+}
+
+announce("NOW ENTERING", "Caleb", "Lotus", "Eve");
+// NOW ENTERING: Caleb
+// NOW ENTERING: Lotus
+// NOW ENTERING: Eve
+```
+
+### `...` for objects
+
+You can use `...` to inject members of one object into another.
+
+```ts
+const weekdays = {
+  mon: 0,
+  tue: 1,
+  wed: 2,
+  thu: 3,
+  fri: 4
+};
+
+const sat = 5;
+const sun = 6;
+
+const daysOfTheWeek = {
+  ...weekdays,
+  sat,
+  sun
+};
+
+console.log(daysOfTheWeek.mon); // 0
+console.log(daysOfTheWeek.fri); // 4
+console.log(daysOfTheWeek.sat); // 5
+console.log(daysOfTheWeek.sun); // 6
+```
