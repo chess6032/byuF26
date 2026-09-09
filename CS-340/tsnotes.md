@@ -488,3 +488,76 @@ console.log(thirdAnimal); // cat
 
 > [!TIP]
 > For more advanced array destructuring, use the spread operator (see below).
+
+## `+` operator is SUS
+
+The `+` has some weird behavior.
+
+### `+` for objects
+
+**When you add two objects, JS coerces them to primitives** and evaluates that sum. This coercion (conversion?) takes two steps:
+
+1. Call the object's `valueOf()` function. If `valueOf()` returns a primitive, then use that.
+2. If `valueOf()` does not return a primitive, call the object's `toString()` function, and use that.
+
+> [!NOTE]
+> Strings are primitives in JS/TS.
+
+This is why adding arrays is super sus:
+
+<pre><code>$ node
+> <i>arr1 = ['a', 'b', 'c'];</i>
+> <i>arr2 = ['d', 'e', 'f'];</i>
+> <i>arr1 + arr2;</i>
+'a,b,cd,e,f'
+</code></pre>
+
+
+### `+` for primitives
+
+When adding two primitives, **if one of the primitives is a string, the result will ALWAYS be a string.** Otherwise, it **coerces the primitives to numbers**.
+
+- Adding a number to a string prepends/appends the number to the string. e.g., `1 + 'rizz'` == `'1rizz'`.
+- `null` when coerced to a number becomes `0`.
+- `undefined` when coerced to a number becomes `NaN`.
+- `NaN` is a number.
+
+### The other arithmetic operators are NOT sus (`-`/`*`/`/`)
+
+`+` is the ONLY arithmetic operator that works this way. All the other arithmetic operators (`-`, `*`, `/`, `**`, etc.) **try to coerce operands to numbers (if it isn't already). If it is unable to, the result is always `NaN`.**
+
+This is why `'25' + 1` is `'251'` but `'25' - 1` is `24`. In the case of the latter, `'25'` is converted to `25` (a number), and then `1` is subtracted from it.
+
+For objects, JS uses `valueOf()` and checks if its return type is a number. If it is, it uses that. Otherwise, the result of the expression will be `NaN`.
+
+### Examples
+
+<pre><code>$ node
+> <i>'hey' + 1</i>
+'hey1'
+> <i>'hey' - 1</i>
+NaN
+> <i>'3' + 2</i>
+'32'
+> <i>'3' * 2</i>
+6
+> <i>1 + NaN</i>
+NaN
+> <i>1 + undefined</i>
+NaN
+> <i>1 + null</i>
+1
+> <i>let obj = { valueOf: () => 69 }</i>
+> <i>obj / 3</i>
+23
+> <i>obj == 69;</i>
+true
+</code></pre>
+
+> [!TIP]
+> If you're ever curious, you can use JS's built-in `String()` and `Number()` functions to see how an object or primitive is converted/coerced to a string or number, respectively.
+
+## Spread operator (`...`)
+
+**The spread operator unpacks an array**: <code>...<i>arr</i></code>.
+
