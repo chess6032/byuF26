@@ -559,6 +559,26 @@ console.log(thirdAnimal); // cat
 > [!TIP]
 > For more advanced array destructuring, use the spread operator (see below).
 
+## Restructuring (object literal enhancement)
+
+Object literal enhancement is the opposite of destructuring.
+
+```ts
+const name = "Ryan Gosling";
+const rating = 10;
+const introduce = function {
+  console.log(`Hey, this is ${name}, a certified ${rating}/10!`);
+};
+
+const ryanG = { name, rating, introduce };
+
+console.log(ryanG.name); // Ryan Gosling
+console.log(ryanG.rating); // 10
+ryanG.introduce(); // Hey, this is Ryan Gosling, a certified 10/10!
+```
+
+Obj literal enhancement is copy-by-value. In the above example, modifications to `name`, `rating`, or `introduce()` would not affect `ryanG`.
+
 ## Spread operator (`...`)
 
 **The spread operator unpacks an array** (or object): <code>...<i>arrOrObj</i></code>.
