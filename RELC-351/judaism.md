@@ -61,7 +61,7 @@ Beyond that, Jews have a series of texts that are authoritative but technically 
   - God's judgements are not final: persons have a 10-day period to rectify their lives & alter those judgements.
 - Begins w/ High Holy Days (i.e. Days of Awe), then ten days later culminates in *Yom Kippur* (the Day of Atonement).
   - Days of Awe: Introspection and repentance.
-- **Central symbol: *shofar***, a trumpet.
+- **Central symbol: *shofar*** ("ram's horn"), a trumpet.
   - (originally warned Israel of an impending threat, or called Israel together for peaceful assembly).
   - Blown 100 times on Rosh Hashanah, calling Jews to self-examination and repentance.
 
@@ -79,6 +79,13 @@ The Feats of Tabernacles.
   - Decorated, eaten in, and slept in (when possible).
 - Seventh day: *Hoshana Rabba* (Great Hosanna). 
 - Eight day: *Shemini Atzeret* (Eight Day of Solemn Assembly). Separate and fully holy. Prayers for rain are said.
+- "A custom amongst certain Jewish communities
+is to “invite” one of seven biblical figures for each
+day of the festival—**Abraham, Isaac, Jacob, Moses,
+Aaron, Joseph, and David**. In the Kabbalistic (mysti-
+cal) tradition they are identified with seven charac-
+teristics—loving kindness, power, beauty, victory,
+splendor, foundations, and sovereignty."
 
 #### *Passover*
 
@@ -94,7 +101,9 @@ Spring festival. (The previous three are Fall festivals.)
   - Night before Passover: special ceremony to search & eliminate last remnants of leaven.
 - *seder* ("order"): the Passover meal.
   - Used to be in the temple, but continues despite the temple's fall.
+  - During this time, a cup of wine is set out for Elijah, and the door is left opened. This symbolizes the hope for his arrival to herald the Messiah and demonstrates that Israel has no fear of its enemies.
   - *hagaddah*: telling the story of Passover. Addresses the four questions the youngest child asks in keeping w/ a commandment in the Torah ("And you shall tell your son on that day, saing..." which appears 4 times). As these questions are answered, the story of God's deliverance from Egyptian bondage is told.
+    - *hagaddah* is central to the Passover b/c the Passover is a teaching tool.
   <!-- - Three obligatory foods: bitter herbs, three pieces of unleavened bread (*mazzah*), and four cups of wine. -->
 - The first night commemorates the angel of death taking the Egyptians' firstborns on Israel's last night in Egypt.
 
@@ -157,7 +166,21 @@ There are four:
   - During their ceremony, boys go up and read from the Torah. In Orthodox circles, girls don't, but it's common for girls to do so among Conservative and Reformed Jews.
   - Nowadays, the *bar mitzvah* marks the end of Jewish scriptoral education for many non-Orthodox Jews (most particularly the diaspora (whatever that is)), though theoretically it's supposed to be the start of his true for real beginning of study in Jewish tradition (especially in the Talmud (whatever that is)).
 - **Marriage**: There's a bunch for rituals and ceremonies and shih.
-- **Death**.
+- **Death**. Here's what mourners do:
+  - Make a small tear in their closing, symbolizing the separation caused by the death.
+  - Immediately after the funeral, the deceased's family "sits *shiva*" in their home: for seven days, they sit on low stools receiving visitors.
+    - Required upon the death of a parent, sibling, child, or spouse.
+    - Daily prayer services normally  held in the synagogue are held in the home where the shiva takes place, during which *kaddish* ("the mourner's prayer") is said.
+      - "In effect, these prayers acknowledge God’s
+  gift of life and his dominion over life’s commence-
+  ment and termination. In addition, these prayers
+  force the mourners to be with others, rather than
+  isolating themselves. Shiva is discontinued during
+the Sabbath."
+    - During shiva, the following are prohibited: Shaving, bathing, wearing leather shoes, sexual relations, laundering clothes, going to work (unless it is absolutely essential economically&mdash;and even then only after the third day).
+  - The morning period continues to a lesser degree for up to thirty days&mdash;except for the parents, for whom the morning period is one year.
+    - During this extended period, attending joyous events (e.g. weddings) is prohibited unless it "invovles one's livelihood. Thus, musicians or caterers might need to break this prohibition."
+
 
 ### Ritual Practices
 
@@ -176,6 +199,13 @@ There are four:
   - *kosher* means "fit", primarily in relation to foods.
   - "While many persons try to rationalize why certain foods are primitted and why others are not, that is not the concern of the biblical laws. The dietary laws relate to discipline and are obeyed because God gave the commands."
   - Followed w/ varying degrees of strictness.
+  - (Some of the) RULES:
+    - Animals w/ cloven hooves that chew the cud are permitted.
+      - But they must be slaughtered in such a way that they feel no pain.
+    - Animals (or birds(?)) that eat meat are NOT permitted.
+    - Fish w/ scales are permitted, but NOT shellfish.
+    - Milk & meat products may NOT be mixed. After eating a meal containing one, a person must wait before eating a meal containing the other.
+    - NEUTRAL FOODS (may be eaten with either milk OR meat): fish, fruits, veggies.
 
 ### Groups w/in Judaism
 
