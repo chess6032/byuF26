@@ -43,6 +43,9 @@ Make sure the following properties in the `compilerOptions` object have the foll
 "sourceMap": true
 ```
 
+> [!TIP]
+> With those settings, I wasn't actually able to do top-level exports. I had to use `"module": "ES2022"`. (I think some of the other ESXXXX options&mdash;e.g. `"ES2020"`&mdash;would work too.)
+
 > [!NOTE]
 > VSCode's TS/JS debugger relies on [source maps](https://firefox-source-docs.mozilla.org/devtools-user/debugger/how_to/use_a_source_map/index.html), which is why we add the `"sourceMap": true` option.
 
